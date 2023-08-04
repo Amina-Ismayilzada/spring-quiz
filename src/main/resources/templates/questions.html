@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Question Management System</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+</nav>
+
+<div class="container">
+    <div class="row">
+        <h1>List of Questions</h1>
+    </div>
+
+
+
+    <table class="table table-striped table-bordered">
+        <thead class = "table-dark">
+        <tr>
+            <th>Question</th>
+            <th>Type</th>
+            <th>Details</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!--            each is a timeleaf attribute-->
+        <tr th:each = "question: ${questions}">
+            <td th:text="${question.questionBody}"></td>
+            <td th:text="${question.idType.type}"></td>
+            <td>
+                <a th:href="@{/questions/view/{id}(id=${question.idQuestion})}" class="btn btn-primary">View</a>
+            </td>
+            <td>
+                <a th:href="@{/questions/edit/{id}(id=${question.idQuestion})}" class="btn btn-primary">Edit</a>
+                <a th:href="@{/questions/{id}(id=${question.idQuestion})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href = "@{/questions/new}" class = "btn btn-primary btn-lg btn-block">+ Create New Question</a>
+
+
+</div>
+
+</body>
+</html>

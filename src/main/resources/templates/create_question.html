@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Create Question</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Question Management System</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/questions}">Home Page</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+      <h1>Create New Question</h1>
+      <div class="card-body">
+        <form th:action="@{/questions}" method="post" th:object="${answersForm}">
+          <div class = "form-group">
+<!--            <label>Question body</label>-->
+            <label for="questionBody">Question</label>
+            <textarea name="question" class="form-control" id="questionBody" rows="3" th:field = "${question.questionBody}"></textarea>
+<!--            <input-->
+<!--                    type = "text"-->
+<!--                    name="question"-->
+<!--                    th:field = "*{questionBody}"-->
+<!--                    class = "form-control"/>-->
+          </div>
+
+          <div class = "form-group">
+<!--            <label>Feedback</label>-->
+<!--            <input-->
+<!--                    type = "text"-->
+<!--                    name="feedback"-->
+<!--                    th:field = "*{feedback}"-->
+<!--                    class = "form-control"/>-->
+            <label for="questionFeedback">Feedback</label>
+            <textarea name="feedback" class="form-control" id="questionFeedback" rows="3" th:field = "${question.feedback}"></textarea>
+
+          </div>
+
+<!--          <div class = "form-group">-->
+<!--            <label>Difficulty level</label>-->
+<!--&lt;!&ndash;            <input&ndash;&gt;-->
+<!--&lt;!&ndash;                    type = "text"&ndash;&gt;-->
+<!--&lt;!&ndash;                    name="level"&ndash;&gt;-->
+<!--&lt;!&ndash;                    th:field = "*{level}"&ndash;&gt;-->
+<!--&lt;!&ndash;                    class = "form-control"&ndash;&gt;-->
+<!--&lt;!&ndash;                    placeholder="enter question level (hopefully not hard:)"/>&ndash;&gt;-->
+<!--      </div>-->
+            <div class="form-group">
+              <label for="questionLevel">Difficulty level</label>
+              <select name="level" th:field = "${question.level}" class="form-control" id="questionLevel">
+                <option th:value="easy">Easy</option>
+                <option th:value="medium">Medium</option>
+                <option th:value="hard">Hard</option>
+              </select>
+            </div>
+
+
+          <div class = "form-group">
+            <label>Score</label>
+            <input
+                    type = "number"
+                    name="score"
+                    min="0"
+                    max="100"
+                    th:field = "${question.score}"
+                    class = "form-control"/>
+          </div>
+
+          <div class = "form-group">
+            <label for="questionType">Question Type</label>
+            <select name="level" th:field = "${question.idType}" class="form-control" id="questionType" onchange="selectOnChange()">
+              <option th:each = "questionType: ${questionTypes}" th:value="${questionType.idType}" th:text="${questionType.type}"></option>
+            </select>
+          </div>
+
+            <br>
+
+            <div class="form-group">
+                <label>Answer and its correctness(%)</label>
+                <div class="row mb-4" th:each="answer,  itemStat : *{answers}">
+                    <div class="col">
+                        <div class="form-outline" >
+                              <textarea
+                                        name="answer"
+                                        th:field="*{answers[__${itemStat.index}__].answerBody}"
+                                        class = "form-control"
+                                        rows="1"
+                              ></textarea>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-outline">
+                          <label>
+                              <input
+                                      type = "number"
+                                      name="grade"
+                                      step="any"
+                                      min="-100"
+                                      max="100"
+                                      th:field="*{answers[__${itemStat.index}__].isCorrect}"
+                                      class = "form-control"/>
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <!--              <button type="button" onclick="addInputLine()" id="addAnswerButton" class="btn btn-secondary">+ Add answer</button>-->
+            </div>
+
+
+
+            <div class="form-group"  style="display: none">
+
+            </div>
+
+
+            <div class="form-group"  style="display: none">
+            </div>
+
+
+          <div class="box-footer">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<script>
+    function addInputLine() {
+        let node = document.createElement("input");
+        document.getElementById("addAnswerButton").appendChild(node);     // Append it to the parent
+    }
+
+    function selectOnChange() {
+
+        let e = document.getElementById("questionType");
+    }
+
+</script>
+</html>
